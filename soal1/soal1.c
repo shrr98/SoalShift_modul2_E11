@@ -11,6 +11,7 @@
 
 int main() {
 	pid_t pid, sid;
+	char pwd[] = "/home/arifdarma/modul2/gambar/";
 
 	pid = fork();
 
@@ -29,7 +30,7 @@ int main() {
 		exit(EXIT_FAILURE);
 	}
 
-	if ((chdir("/")) < 0) {
+	if ((chdir(pwd)) < 0) {
 		exit(EXIT_FAILURE);
 	}
 
@@ -46,15 +47,16 @@ int main() {
 		FD=opendir(".");
     		while(in_file=readdir(FD)){
 			strcpy(lama,in_file->d_name);
-			if(strchr(lama,'.')!=NULL && strcmp(".png",&lama[strlen(lama)-4])==0){
+			if(strcmp("_grey.png", &lama[strlen(lama)-9])!=0 && strcmp(".png",&lama[strlen(lama)-4])==0){
 				memset(baru,0,sizeof baru);
 				strncpy(baru,lama,strlen(lama)-4);
 				strcat(baru,"_grey.png");
-				strcpy(tujuan,"/home/arifdarma/modul2/gambar/");
+				strcpy(tujuan,pwd);
 				strcat(tujuan,baru);
 				rename(lama,tujuan);
 			}
 		}
+		closedir(FD);
     	sleep(10);
   	}
   	exit(EXIT_SUCCESS);
