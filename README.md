@@ -15,7 +15,36 @@ Catatan : Tidak boleh menggunakan crontab.
 </p>
 <ol>
   <li>
+	 Cek apakah di directory ada file atau directory dengan cara <pre>
+	 FD=opendir(".");
+                while(in_file=readdir(FD))
+	 </pre>
+	  Maksud nya ialah cek apakah ditempat program itu berada, apakah ada file didirectory tersebut
   </li>
+  <li>
+	  Mencari file dengan ektensi .png pada directory 
+	  <pre>
+	  	if(strcmp("_grey.png", &lama[strlen(lama)-9])!=0 && strcmp(".png",&lama[strlen(lama)-4])==0)
+	  </pre>
+	  Mengecek apakah ada file yang berekstensi ".png" dan nama filenya tidak diakhiri dengan "_grey.png"
+  </li>
+  <li>
+	Jika ada maka di rename file tersebut menjadi "(namafile)_grey.png"
+	  <pre>
+	  	strncpy(baru,lama,strlen(lama)-4);
+                strcat(baru,"_grey.png");
+	  </pre>
+	  Mengambil nama file tersebut tanpa mengambil ektensi nya lalu di ubah menjadi "(namafile)_grey.png"
+  </li>
+  <li>
+	  Memindah kan file yang telah direname tadi ke directory /home/[user]/modul2/gambar/
+	  <pre>
+	  	 strcpy(tujuan,pwd);
+                 strcat(tujuan,baru);
+                 rename(lama,tujuan);
+	  </pre>
+	  Variable pwd menyimpan alamat tujuan, lalu variabel baru adalah file yang telah diubah namanya tadi. Dan rename berfungsi juga untuk memindahkan file ke directory tujuan
+   </li>
 </ol>
 <br/>
 
