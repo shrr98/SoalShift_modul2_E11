@@ -32,19 +32,19 @@ Catatan: Tidak boleh menggunakan crontab
   <li>
     Di child process, cek apakah terdapat file "elen.ku" pada directory "hatiku" dengan group dan owner "www-data". Jika benar, ubah permissionnya menjadi 777 menggunakan chmod.<br>
 	  
-      ```c
-	  
-      struct stat buf;
-	if(stat("hatiku/elen.ku", &buf)==-1)
-	exit(EXIT_FAILURE);
-	struct group *gr = getgrgid(buf.st_gid);
-	struct  passwd *pw = getpwuid(buf.st_uid);
-	if(strcmp(pw->pw_name, "www-data")==0 && strcmp(gr->gr_name, "www-data")==0){
-		char *argv[4] = {"chmod", "777", "hatiku/elen.ku", NULL};
-		execvp("chmod", argv);
-	}
-	
-      ```
+```c
+
+struct stat buf;
+if(stat("hatiku/elen.ku", &buf)==-1)
+exit(EXIT_FAILURE);
+struct group *gr = getgrgid(buf.st_gid);
+struct  passwd *pw = getpwuid(buf.st_uid);
+if(strcmp(pw->pw_name, "www-data")==0 && strcmp(gr->gr_name, "www-data")==0){
+	char *argv[4] = {"chmod", "777", "hatiku/elen.ku", NULL};
+	execvp("chmod", argv);
+}
+
+```
   </li>
 </ol>
 <br/>
