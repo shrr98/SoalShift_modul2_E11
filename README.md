@@ -21,40 +21,51 @@ Catatan : Tidak boleh menggunakan crontab.
 	 </pre>
 	  Maksud nya ialah cek apakah ditempat program itu berada, apakah ada file didirectory tersebut
   </li>
-	<br>
-  <li>
-	  Mencari file dengan ektensi .png pada directory 
-```c
+	<br/>
+   <li>
+    Mencari file dengan ektensi .png pada directory <br>
 	  
+```c
+
 if(strcmp("_grey.png", &lama[strlen(lama)-9])!=0 && 
 strcmp(".png",&lama[strlen(lama)-4])==0)
 
 ```
-	  Mengecek apakah ada file yang berekstensi ".png" dan nama filenya tidak diakhiri dengan "_grey.png"
+	
   </li>
-	<br>
+  
   <li>
-	Jika ada maka di rename file tersebut menjadi "(namafile)_grey.png"
-	  <pre>
+	Mengecek apakah ada file yang berekstensi ".png" dan nama filenya tidak diakhiri dengan "_grey.png". Jika ada maka di rename file tersebut menjadi "(namafile)_grey.png". Mengambil nama file tersebut tanpa mengambil ektensi nya lalu di ubah menjadi "(namafile)_grey.png"<br/>
+
+```c
+
 	  	strncpy(baru,lama,strlen(lama)-4);
                 strcat(baru,"_grey.png");
-	  </pre>
-	  Mengambil nama file tersebut tanpa mengambil ektensi nya lalu di ubah menjadi "(namafile)_grey.png"
+
+```
+
+	  
   </li>
 	<br>
   <li>
-	  Memindah kan file yang telah direname tadi ke directory /home/[user]/modul2/gambar/
-	  <pre>
+	  Memindah kan file yang telah direname tadi ke directory /home/[user]/modul2/gambar/. 
+	  Variable pwd menyimpan alamat tujuan, lalu variabel baru adalah file yang telah diubah namanya tadi. Dan rename berfungsi juga untuk memindahkan file ke directory tujuan<br/>
+
+```c
+
 	  	 char pwd[] = "/home/arifdarma/modul2/gambar/";
 	  	 strcpy(tujuan,pwd);
                  strcat(tujuan,baru);
                  rename(lama,tujuan);
-	  </pre>
-	  Variable pwd menyimpan alamat tujuan, lalu variabel baru adalah file yang telah diubah namanya tadi. Dan rename berfungsi juga untuk memindahkan file ke directory tujuan
+
+```
+
    </li>
    <li>
-	   Dan menggunakan daemon agar proses selalu berjalan di background jadi program keseluruhannya adalah
-	   <pre>
+	   Dan menggunakan daemon agar proses selalu berjalan di background jadi program keseluruhannya adalah<br/>
+
+```c
+	
 	   	int main() {
 			pid_t pid, sid;
 			char pwd[] = "/home/arifdarma/modul2/gambar/";
@@ -100,7 +111,9 @@ strcmp(".png",&lama[strlen(lama)-4])==0)
   			}
   			exit(EXIT_SUCCESS);
 		}
-	   </pre>
+
+```
+
    </li>
 </ol>
 <br/>
