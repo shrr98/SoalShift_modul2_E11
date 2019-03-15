@@ -30,8 +30,10 @@ Catatan: Tidak boleh menggunakan crontab
     Buat 2 process menggunakan fork. Parent process untuk menghapus file sedangkan child process untuk mengubah permission.
   </li>
   <li>
-    Di child process, cek apakah terdapat file "elen.ku" pada directory "hatiku" dengan group dan owner "www-data". Jika benar, ubah permissionnya menjadi 777 menggunakan chmod.
+    Di child process, cek apakah terdapat file "elen.ku" pada directory "hatiku" dengan group dan owner "www-data". Jika benar, ubah permissionnya menjadi 777 menggunakan chmod.<br>
+	  
       ```c
+	  
       struct stat buf;
 	if(stat("hatiku/elen.ku", &buf)==-1)
 	exit(EXIT_FAILURE);
@@ -41,6 +43,7 @@ Catatan: Tidak boleh menggunakan crontab
 		char *argv[4] = {"chmod", "777", "hatiku/elen.ku", NULL};
 		execvp("chmod", argv);
 	}
+	
       ```
   </li>
 </ol>
