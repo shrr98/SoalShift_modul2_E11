@@ -15,7 +15,91 @@ Catatan : Tidak boleh menggunakan crontab.
 </p>
 <ol>
   <li>
+	 Cek apakah di directory ada file atau directory dengan cara <pre>
+	 FD=opendir(".");
+                while(in_file=readdir(FD))
+	 </pre>
+	  Maksud nya ialah cek apakah ditempat program itu berada, apakah ada file didirectory tersebut
   </li>
+	<br>
+  <li>
+	  Mencari file dengan ektensi .png pada directory 
+	  <pre>
+	  	if(strcmp("_grey.png", &lama[strlen(lama)-9])!=0 && 
+		strcmp(".png",&lama[strlen(lama)-4])==0)
+	  </pre>
+	  Mengecek apakah ada file yang berekstensi ".png" dan nama filenya tidak diakhiri dengan "_grey.png"
+  </li>
+	<br>
+  <li>
+	Jika ada maka di rename file tersebut menjadi "(namafile)_grey.png"
+	  <pre>
+	  	strncpy(baru,lama,strlen(lama)-4);
+                strcat(baru,"_grey.png");
+	  </pre>
+	  Mengambil nama file tersebut tanpa mengambil ektensi nya lalu di ubah menjadi "(namafile)_grey.png"
+  </li>
+	<br>
+  <li>
+	  Memindah kan file yang telah direname tadi ke directory /home/[user]/modul2/gambar/
+	  <pre>
+	  	 char pwd[] = "/home/arifdarma/modul2/gambar/";
+	  	 strcpy(tujuan,pwd);
+                 strcat(tujuan,baru);
+                 rename(lama,tujuan);
+	  </pre>
+	  Variable pwd menyimpan alamat tujuan, lalu variabel baru adalah file yang telah diubah namanya tadi. Dan rename berfungsi juga untuk memindahkan file ke directory tujuan
+   </li>
+   <li>
+	   Dan menggunakan daemon agar proses selalu berjalan di background jadi program keseluruhannya adalah
+	   <pre>
+	   	int main() {
+			pid_t pid, sid;
+			char pwd[] = "/home/arifdarma/modul2/gambar/";
+			pid = fork();
+			if (pid < 0) {
+   				exit(EXIT_FAILURE);
+  			}
+			if (pid > 0) {
+				exit(EXIT_SUCCESS);
+			}
+			umask(0);
+			sid = setsid();
+			if (sid < 0) {
+				exit(EXIT_FAILURE);
+			}
+			if ((chdir(pwd)) < 0) {
+				exit(EXIT_FAILURE);
+			}
+			close(STDIN_FILENO);
+  			close(STDOUT_FILENO);
+		  	close(STDERR_FILENO);
+  			while(1) {
+				DIR* FD;
+				struct dirent* in_file;
+				char lama[100]={0};
+				char baru[100]={0};
+				char tujuan[100]={0};
+				FD=opendir(".");
+				while(in_file=readdir(FD)){
+					strcpy(lama,in_file->d_name);
+					if(strcmp("_grey.png", &lama[strlen(lama)-9])!=0 && 
+					   strcmp(".png",&lama[strlen(lama)-4])==0){
+						memset(baru,0,sizeof baru);
+						strncpy(baru,lama,strlen(lama)-4);
+						strcat(baru,"_grey.png");
+						strcpy(tujuan,pwd);
+						strcat(tujuan,baru);
+						rename(lama,tujuan);
+					}
+				}
+				closedir(FD);
+    				sleep(10);
+  			}
+  			exit(EXIT_SUCCESS);
+		}
+	   </pre>
+   </li>
 </ol>
 <br/>
 
