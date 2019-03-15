@@ -21,13 +21,16 @@ Catatan : Tidak boleh menggunakan crontab.
 	 </pre>
 	  Maksud nya ialah cek apakah ditempat program itu berada, apakah ada file didirectory tersebut
   </li>
+	<br>
   <li>
 	  Mencari file dengan ektensi .png pada directory 
 	  <pre>
-	  	if(strcmp("_grey.png", &lama[strlen(lama)-9])!=0 && strcmp(".png",&lama[strlen(lama)-4])==0)
+	  	if(strcmp("_grey.png", &lama[strlen(lama)-9])!=0 && 
+		strcmp(".png",&lama[strlen(lama)-4])==0)
 	  </pre>
 	  Mengecek apakah ada file yang berekstensi ".png" dan nama filenya tidak diakhiri dengan "_grey.png"
   </li>
+	<br>
   <li>
 	Jika ada maka di rename file tersebut menjadi "(namafile)_grey.png"
 	  <pre>
@@ -36,6 +39,7 @@ Catatan : Tidak boleh menggunakan crontab.
 	  </pre>
 	  Mengambil nama file tersebut tanpa mengambil ektensi nya lalu di ubah menjadi "(namafile)_grey.png"
   </li>
+	<br>
   <li>
 	  Memindah kan file yang telah direname tadi ke directory /home/[user]/modul2/gambar/
 	  <pre>
