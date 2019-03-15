@@ -6,6 +6,3 @@
 </div>
 
 <hr>
-<pre>
-User      : trash
-</pre>
