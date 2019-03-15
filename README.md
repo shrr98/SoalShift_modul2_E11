@@ -13,6 +13,10 @@
 Catatan : Tidak boleh menggunakan crontab.
 
 </p>
+<ol>
+  <li>
+  </li>
+</ol>
 <br/>
 
 <h3>Nomor 2</h3>
@@ -20,6 +24,28 @@ Catatan : Tidak boleh menggunakan crontab.
   Pada suatu hari Kusuma dicampakkan oleh Elen karena Elen dimenangkan oleh orang lain. Semua kenangan tentang Elen berada pada file bernama “elen.ku” pada direktori “hatiku”. Karena sedih berkepanjangan, tugas kalian sebagai teman Kusuma adalah membantunya untuk menghapus semua kenangan tentang Elen dengan membuat program C yang bisa mendeteksi owner dan group dan menghapus file “elen.ku” setiap 3 detik dengan syarat ketika owner dan grupnya menjadi “www-data”. Ternyata kamu memiliki kendala karena permission pada file “elen.ku”. Jadi, ubahlah permissionnya menjadi 777. Setelah kenangan tentang Elen terhapus, maka Kusuma bisa move on.<br/>
 Catatan: Tidak boleh menggunakan crontab
 </p>
+
+<ol>
+  <li>
+    Buat 2 process menggunakan fork. Parent process untuk menghapus file sedangkan child process untuk mengubah permission.
+  </li>
+  <li>
+    Di child process, cek apakah terdapat file "elen.ku" pada directory "hatiku" dengan group dan owner "www-data". Jika benar, ubah permissionnya menjadi 777 menggunakan chmod.
+    <pre>
+      ```C
+      struct stat buf;
+				if(stat("hatiku/elen.ku", &buf)==-1)
+					exit(EXIT_FAILURE);
+				struct group *gr = getgrgid(buf.st_gid);
+				struct  passwd *pw = getpwuid(buf.st_uid);
+				if(strcmp(pw->pw_name, "www-data")==0 && strcmp(gr->gr_name, "www-data")==0){
+					char *argv[4] = {"chmod", "777", "hatiku/elen.ku", NULL};
+					execvp("chmod", argv);
+				}
+      ```
+    </pre>
+  </li>
+</ol>
 <br/>
 
 
