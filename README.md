@@ -53,16 +53,16 @@ Catatan : Tidak boleh menggunakan crontab.
    <li>
 	   Dan menggunakan daemon agar proses selalu berjalan di background jadi program keseluruhannya adalah
 	   <pre>
-	   	#include <sys/types.h>
-		#include <sys/stat.h>
-		#include <stdio.h>
-		#include <stdlib.h>
-		#include <fcntl.h>
-		#include <errno.h>
-		#include <unistd.h>
-		#include <syslog.h>
-		#include <string.h>
-		#include <dirent.h>
+	   	#include<sys/types.h>
+		#include<sys/stat.h>
+		#include<stdio.h>
+		#include<stdlib.h>
+		#include<fcntl.h>
+		#include<errno.h>
+		#include<unistd.h>
+		#include<syslog.h>
+		#include<string.h>
+		#include<dirent.h>
 		int main() {
 			pid_t pid, sid;
 			char pwd[] = "/home/arifdarma/modul2/gambar/";
