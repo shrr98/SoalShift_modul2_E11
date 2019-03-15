@@ -43,6 +43,8 @@ Catatan : Tidak boleh menggunakan crontab.
   <li>
 	  Memindah kan file yang telah direname tadi ke directory /home/[user]/modul2/gambar/
 	  <pre>
+	  	 char pwd[] = "/home/arifdarma/modul2/gambar/";
+		
 	  	 strcpy(tujuan,pwd);
                  strcat(tujuan,baru);
                  rename(lama,tujuan);
