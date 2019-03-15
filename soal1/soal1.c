@@ -45,7 +45,7 @@ int main() {
 		char baru[100]={0};
 		char tujuan[100]={0};
 		FD=opendir(".");
-    		while(in_file=readdir(FD)){
+		while(in_file=readdir(FD)){
 			strcpy(lama,in_file->d_name);
 			if(strcmp("_grey.png", &lama[strlen(lama)-9])!=0 && strcmp(".png",&lama[strlen(lama)-4])==0){
 				memset(baru,0,sizeof baru);
