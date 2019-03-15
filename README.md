@@ -1,1 +1,23 @@
-# SoalShift_modul2_E11
+<h1>LAPORAN SOAL SHIFT MODUL 1</h1>
+<div>
+  <h3>KELOMPOK E 11</h3>
+  <p>Shintya Rezky R. (05111740000017)</p>
+  <p> Arif Darma A.   (05111740000182)</p>
+</div>
+
+<hr>
+<pre>
+User      : trash
+Directory : /home/trash/sisop/praktikum1/
+</pre><h1>LAPORAN SOAL SHIFT MODUL 1</h1>
+<div>
+  <h3>KELOMPOK E 11</h3>
+  <p>Shintya Rezky R. (05111740000017)</p>
+  <p> Arif Darma A.   (05111740000182)</p>
+</div>
+
+<hr>
+<pre>
+User      : trash
+Directory : /home/trash/sisop/praktikum1/
+</pre>
