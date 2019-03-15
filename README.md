@@ -452,7 +452,7 @@ int main() {
 }
 
 ```
-	</li>
+</li>
 </ol>
 <br/>
 
@@ -469,4 +469,39 @@ Buatlah program c untuk menghentikan program di atas.<br/>
 NB: Dilarang menggunakan crontab dan tidak memakai argumen ketika menjalankan program.<br/>
 
 </p>
+
+<ol>
+	<li>
+		Membuat program utama<br/>
+		Kendala : child process tidak terminated sehingga process beranak-pinak.
+	</li>
+	<li>
+		Membuat program untuk menghentikan program utama menggunakan pkill.
+		
+```c
+		
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <unistd.h>
+
+int main(){
+    pid_t pid = fork();
+    if(pid==0){
+        char *argv[] = {"pkill", "soal5", NULL};
+        execv("/usr/bin/pkill", argv);
+    }
+    else{
+        exit(EXIT_SUCCESS);
+    }
+}	
+
+```
+
+</li>
+</ol>
 <br/>
