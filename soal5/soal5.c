@@ -1,90 +1,67 @@
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
-#include <dirent.h>
+#include <syslog.h>
 #include <string.h>
 #include <time.h>
 
 int main() {
+  pid_t pid, sid;
 
-    pid_t daemon, sid;
+  pid = fork();
 
-    time_t t = time(0);
-    int menitAwal = localtime(&t)->tm_min;
-    int cattogrep[2], greptowrite[2];
+  if (pid < 0) {
+    exit(EXIT_FAILURE);
+  }
 
-	daemon = fork();
+  if (pid > 0) {
+    exit(EXIT_SUCCESS);
+  }
 
-	if (daemon < 0) {
-		exit(EXIT_FAILURE);
-	}
+  umask(0);
 
-	if (daemon > 0) {
-		exit(EXIT_SUCCESS);
-	}
+  sid = setsid();
 
-	umask(0);
+  if (sid < 0) {
+    exit(EXIT_FAILURE);
+  }
 
-	sid = setsid();
+  if ((chdir("/")) < 0) {
+    exit(EXIT_FAILURE);
+  }
 
-	if (sid < 0) {
-		exit(EXIT_FAILURE);
+  close(STDIN_FILENO);
+  close(STDOUT_FILENO);
+  close(STDERR_FILENO);
 
-    
-    if(pipe(cattogrep)<0)
-        exit(EXIT_FAILURE);
-    if(pipe(greptowrite)<0)
-        exit(EXIT_FAILURE);	}
-
-	if ((chdir(".")) < 0) {
-		exit(EXIT_FAILURE);
-	}
-
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
-
-    while(1){
-        pid_t master=fork();
-        if(master==0) sleep(10);
-        else{
-            char newfile[100];
-            time_t tim = time(0);
-            int count;
-            struct tm *now = localtime(&tim);
-            if(now->tm_min >= menitAwal) count = 1+ now->tm_min - menitAwal;
-            else count = 31 - (menitAwal - now->tm_min);
-            if(count>30) count-=30;
-            sprintf(newfile, "/home/trash/log/log%d.log", count);
-            pid_t copying = fork();
-            if(copying==0){
-                char *argv[] = {"cp", "/var/log/syslog", newfile, NULL};
-                execv("/bin/cp", argv);
-            }
-            else{
-                wait(NULL);
-                pid_t mkdir=fork();
-                if(mkdir==0){
-                    int currMin = now->tm_min;
-                    if((currMin%30) == menitAwal){
-                    char newDir[100];
-                    sprintf(newDir, "/home/trash/log/%02d:%02d:%04d-%02d:%02d",
-                            now->tm_mday, now->tm_mon, now->tm_year, now->tm_hour, now->tm_min);
-                    char *argv[] = {"mkdir","-p", newDir, NULL};
-                    execv("/bin/mkdir", argv);
-                    }
-                    else exit(EXIT_SUCCESS);
+  while(1) {
+        time_t t;
+        time(&t);
+        struct tm *waktu = localtime(&t);
+        char folder[100];
+        char buff[BUFSIZ];
+        sprintf(folder, "/home/trash/log/%02d:%02d:%04d-%02d:%02d", waktu->tm_mday, waktu->tm_mon+1, 1900+waktu->tm_year, waktu->tm_hour, waktu->tm_min);
+        mkdir(folder, 0777);
+	int i;
+        for(i=1; i<30; i++){
+                FILE *log, *dest;
+                log = fopen("/var/log/syslog", "r");
+                char file[100];
+                sprintf(file, "%s/log%d.log", folder, i);
+                dest = fopen(file, "w");
+                char cr;
+                while(fread(buff, 1, BUFSIZ, log))
+                {
+                    fwrite(buff, 1, BUFSIZ, dest);
                 }
-                else{
-                    wait(NULL);
-                    exit(EXIT_SUCCESS);
-                }
-            }
+                fclose(log);
+                fclose(dest);
+                sleep(60);
         }
-    }
+ }
+  exit(EXIT_SUCCESS);
 }
